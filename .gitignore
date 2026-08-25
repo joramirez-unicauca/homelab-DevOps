@@ -1,0 +1,15 @@
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/errored.tfstate
+
+RettenTask-api/apollo-server/node_modules/
+RettenTask-app/node_modules/
+
+.venv/
+venv/
+__pycache__/
+*.log
+.env
+*.iso
+*.zip

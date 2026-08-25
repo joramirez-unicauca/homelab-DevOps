@@ -1,0 +1,13 @@
+{
+	"name": "apollo-server",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies":{
+		"@apollo/server": "^4.11.0",
+		"graphql": "^16.9.0"
+	}
+}
+

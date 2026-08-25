@@ -1,0 +1,64 @@
+---
+  - name: Preparar y desplegar infrastructura de monitoreo
+    hosts: homelab
+    become: true
+
+    vars:
+      usuario: admin1
+      proyecto_dir: /home/admin1/observabilidad
+
+    tasks:
+      - name: Analizando tu maquina si tiene la ballenita.....vas a ser analizado
+        ansible.builtin.command: docker --version
+        register: docker_check
+        ignore_errors: true
+        changed_when: false
+
+      - name: Mostrar si no tenes la ballenita(docker)
+        ansible.builtin.debug:
+          msg: "Ballenita ya instalada: {{ docker_check.stdout }}"
+        when: docker_check.rc == 0
+
+      - name: Aviso de Ballena no encontrada
+        ansible.builtin.debug:
+          msg: "maquina virgen detectada se procedera a instalar todo lo necesario"
+        when: docker_check.rc != 0
+
+      - name: instalar ballena y ballena compose si faltan
+        ansible.builtin.apt:
+          name:
+            - docker.io
+            - docker-compose-plugin
+          state: present
+          update_cache: yes
+
+      - name: asegurando que la ballena azul este instalada y habilitada
+        ansible.builtin.service:
+          name: docker
+          state: started
+          enabled: yes
+
+      - name: asegurando que el usuario sea panita de la ballena azul
+        ansible.builtin.user:
+          name: "{{ usuario }}"
+          groups: docker
+          append: true
+
+      - name: analizando version del docker.......me canse de escribir ballena
+        ansible.builtin.command: docker --version
+        register: docker_version
+        changed_when: false
+
+      - name: mostrando la dichosa version......ya casi acaba :(
+        ansible.builtin.debug:
+          var: docker_version.stdout
+
+      - name: montando todo el sistema e infrastructura......preparese pal virus tiktoker
+        ansible.builtin.command: docker compose up -d
+        args:
+          chdir: "{{ proyecto_dir }}"
+        register: docker_result
+
+      - name: mostrando resultado de ejecucion de docker compose
+        ansible.builtin.debug:
+          var: docker_result.stdout_lines
