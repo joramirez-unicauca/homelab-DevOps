@@ -39,4 +39,5 @@ INSERT INTO tareas (titulo,descripcion,prioridad,fecha_vencimiento,proyecto_id) 
 INSERT INTO subtareas (titulo, completada, tarea_id) VALUES
 	('Levantar Postgres',TRUE,1),
 	('Levantar PostRest',FALSE,1),
-	('Escribir servidor Apollo', FALSE, 1);
+	('Escribir servidor Apollo', FALSE, 1),
+	('comprar carnes y patatas', TRUE,2);

@@ -165,7 +165,7 @@ resource "docker_container" "postgres" {
 	}
 
 	volumes{
-		host_path = "/home/admin1/RettenTask-api/postgres"
+		host_path = "${var.config_path}/RettenTask-api/postgres"
 		container_path= "/docker-entrypoint-initdb.d"
 	}
 
@@ -209,7 +209,7 @@ resource "docker_image" "apollo" {
 	name="apollo-server:1.0"
 
 	build {
-		context ="/home/admin1/RettenTask-api/apollo-server"
+		context ="${var.config_path}/RettenTask-api/apollo-server"
 	}
 }
 
@@ -248,7 +248,7 @@ resource "docker_container" "nginx" {
 	}
 
 	volumes {
-		host_path = "/home/admin1/RettenTask-api/nginx/nginx.conf"
+		host_path = "${var.config_path}/RettenTask-api/nginx/nginx.conf"
 		container_path = "/etc/nginx/conf.d/default.conf"
 	}
 }
