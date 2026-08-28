@@ -7,7 +7,7 @@ pipeline {
 			steps {
 				sh '''
 					cd RettenTask-api/apollo-server
-					docker build -t apollo-server:latest
+					docker build -t apollo-server:latest .
 				'''
 			}
 		}
@@ -20,7 +20,7 @@ pipeline {
 				
 				docker run -d \
 					--name apollo \
-					--network monitoreo_net
+					--network monitoreo_net \
 					-p 4000:4000
 					apollo-server:latest
 				'''
