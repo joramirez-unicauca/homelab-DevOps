@@ -21,7 +21,7 @@ pipeline {
 				docker run -d \
 					--name apollo \
 					--network monitoreo_net \
-					-p 4000:4000
+					-p 4000:4000 \
 					apollo-server:latest
 				'''
 			}
