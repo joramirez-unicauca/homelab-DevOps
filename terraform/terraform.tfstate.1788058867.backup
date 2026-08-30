@@ -1,0 +1,47 @@
+{
+  "version": 4,
+  "terraform_version": "1.16.0",
+  "serial": 886,
+  "lineage": "a7ea9b1a-f9f2-69fa-9543-6c8aee225b3d",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "docker_network",
+      "name": "monitoreo_net",
+      "provider": "provider[\"registry.terraform.io/kreuzwerker/docker\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "attachable": false,
+            "check_duplicate": null,
+            "driver": "bridge",
+            "id": "cbfa6dfbc48c5dbefe8109eaacd438bd3c60753a5ddd7a0e50994b5c1016f3ed",
+            "ingress": false,
+            "internal": false,
+            "ipam_config": [
+              {
+                "aux_address": {},
+                "gateway": "172.18.0.1",
+                "ip_range": "",
+                "subnet": "172.18.0.0/16"
+              }
+            ],
+            "ipam_driver": "default",
+            "ipam_options": {},
+            "ipv6": false,
+            "labels": [],
+            "name": "monitoreo_net",
+            "options": {},
+            "scope": "local"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

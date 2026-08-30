@@ -174,6 +174,37 @@ resource "docker_container" "postgres" {
     external = 5432
   }
 }
+#===========================================================
+
+# Tareas-exporter mandar tareas hechas o no
+
+resource "docker_image" "tareas-exporter" {
+  name = "tareas_exporter:1.0"
+
+  build {
+    context = "${var.config_path}/tareas-exporter"
+  }
+}
+
+resource "docker_container" "tareas-exporter" {
+  name  = "tareas-exporter"
+  image = docker_image.tareas-exporter.image_id
+
+  networks_advanced {
+    name = docker_network.monitoreo_net.name
+  }
+
+  ports {
+    internal = 8000
+    external = 8000
+  }
+
+  depends_on = [
+    docker_container.postgres
+  ]
+}
+
+
 
 #============================================================
 # PostRest - API Rest
@@ -205,27 +236,27 @@ resource "docker_container" "postgrest" {
 #============================================================
 # Apollo server
 
-resource "docker_image" "apollo" {
-  name = "apollo-server:1.0"
+#resource "docker_image" "apollo" {
+#  name = "apollo-server:1.0"
 
-  build {
-    context = "${var.config_path}/RettenTask-api/apollo-server"
-  }
-}
+#  build {
+#    context = "${var.config_path}/RettenTask-api/apollo-server"
+#  }
+#}
 
-resource "docker_container" "apollo" {
-  name  = "apollo"
-  image = docker_image.apollo.image_id
+#resource "docker_container" "apollo" {
+#  name  = "apollo"
+#  image = docker_image.apollo.image_id
 
-  networks_advanced {
-    name = docker_network.monitoreo_net.name
-  }
+#  networks_advanced {
+#    name = docker_network.monitoreo_net.name
+#  }
 
-  ports {
-    internal = 4000
-    external = 4000
-  }
-}
+#  ports {
+#    internal = 4000
+#    external = 4000
+#  }
+#}
 
 #============================================================
 # NGINX - union de apollo y postrest
@@ -257,12 +288,19 @@ resource "docker_container" "nginx" {
 # JENKINS - robot que monta cosas o actualiza
 
 resource "docker_image" "jenkins" {
-  name = "jenkins/jenkins:lts"
+  name = "jenkins-custom"
+
+  build {
+    context    = "../jenkins"
+    dockerfile = "Dockerfile"
+  }
 }
 
 resource "docker_container" "jenkins" {
   name  = "jenkins"
   image = docker_image.jenkins.image_id
+
+  group_add = ["983"]
 
   networks_advanced {
     name = docker_network.monitoreo_net.name
